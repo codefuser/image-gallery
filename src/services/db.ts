@@ -1,8 +1,9 @@
 import { Board, Comment, ImageItem, Like, Notification, SavedImage, User } from '../types';
 import { CATEGORIES, INITIAL_BOARDS, INITIAL_IMAGES, INITIAL_NOTIFICATIONS, INITIAL_USER } from './sampleData';
 
-const DB_NAME = 'pinscape_db';
+const DB_NAME = 'pinscape_local_v1';
 const DB_VERSION = 1;
+
 
 export class LocalDatabase {
   private dbPromise: Promise<IDBDatabase> | null = null;
@@ -50,6 +51,7 @@ export class LocalDatabase {
           notifStore.createIndex('userId', 'userId', { unique: false });
         }
       };
+
 
       request.onsuccess = async () => {
         const db = request.result;
