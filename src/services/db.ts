@@ -1,9 +1,8 @@
 import { Board, Comment, ImageItem, Like, Notification, SavedImage, User } from '../types';
 import { CATEGORIES, INITIAL_BOARDS, INITIAL_IMAGES, INITIAL_NOTIFICATIONS, INITIAL_USER } from './sampleData';
 
-const DB_NAME = 'pinscape_local_v1';
+const DB_NAME = 'pinscape_v5';
 const DB_VERSION = 1;
-
 
 export class LocalDatabase {
   private dbPromise: Promise<IDBDatabase> | null = null;
@@ -52,7 +51,6 @@ export class LocalDatabase {
         }
       };
 
-
       request.onsuccess = async () => {
         const db = request.result;
         await this.seedInitialDataIfEmpty(db);
@@ -98,8 +96,15 @@ export class LocalDatabase {
         for (const img of INITIAL_IMAGES) {
           const getReq = store.get(img.id);
           getReq.onsuccess = () => {
-            if (!getReq.result) {
+            const existing = getReq.result;
+            if (!existing) {
               store.put(img);
+            } else if (existing.url !== img.url || existing.thumbnail !== img.thumbnail) {
+              store.put({
+                ...existing,
+                url: img.url,
+                thumbnail: img.thumbnail,
+              });
             }
           };
         }
