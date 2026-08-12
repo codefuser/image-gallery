@@ -54,6 +54,7 @@ export class LocalDatabase {
       request.onsuccess = async () => {
         const db = request.result;
         await this.seedInitialDataIfEmpty(db);
+        await this.ensureNewImagesSeeded(db);
         resolve(db);
       };
 
@@ -85,6 +86,27 @@ export class LocalDatabase {
         notifStore.put(notif);
       }
     }
+  }
+
+  private async ensureNewImagesSeeded(db: IDBDatabase): Promise<void> {
+    return new Promise((resolve) => {
+      try {
+        const tx = db.transaction('images', 'readwrite');
+        const store = tx.objectStore('images');
+        for (const img of INITIAL_IMAGES) {
+          const getReq = store.get(img.id);
+          getReq.onsuccess = () => {
+            if (!getReq.result) {
+              store.put(img);
+            }
+          };
+        }
+        tx.oncomplete = () => resolve();
+        tx.onerror = () => resolve();
+      } catch (e) {
+        resolve();
+      }
+    });
   }
 
   private countStore(store: IDBObjectStore): Promise<number> {

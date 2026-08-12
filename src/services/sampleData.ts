@@ -74,6 +74,33 @@ export const INITIAL_BOARDS: Board[] = [
 
 export const INITIAL_IMAGES: ImageItem[] = [
   {
+    id: 'img_gdrive_1',
+    userId: INITIAL_USER.id,
+    title: 'Group Celebration & Friends Memory',
+    description: 'A special memorable group photo with friends captured during an unforgettable event.',
+    url: '/group_photo.jpg',
+    thumbnail: '/group_photo.jpg',
+    aspectRatio: 1.33,
+    width: 1600,
+    height: 1200,
+    category: 'Photography',
+    tags: ['friends', 'group', 'celebration', 'memory', 'event', 'photography', 'gathering'],
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+    likesCount: 156,
+    savesCount: 84,
+    viewsCount: 1240,
+    downloadsCount: 45,
+    privacy: 'public',
+    status: 'published',
+    creator: {
+      id: INITIAL_USER.id,
+      username: INITIAL_USER.username,
+      displayName: INITIAL_USER.displayName,
+      avatar: INITIAL_USER.avatar,
+    },
+  },
+  {
     id: 'img_1',
     userId: 'user_creator_1',
     title: 'Minimalist Curved Spiral Staircase',
